@@ -1,0 +1,30 @@
+site_name: auth-rsha
+site_description: Reusable JWT auth for FastAPI (password flow)
+site_url: https://<sargsyanhayko>.github.io/auth-rsha/
+repo_url: https://github.com/<sargsyanhayko>/auth-rsha
+repo_name: <sargsyanhayko>/auth-rsha
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Overview: index.md
+  - Getting started: getting-started.md
+  - API: api.md
+  - Changelog: changelog.md
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
