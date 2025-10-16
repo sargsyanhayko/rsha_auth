@@ -1,3 +1,4 @@
+# src/auth_rsha/routers/auth.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from ..schemas import Token, UserInDB, TokenPayload
@@ -6,10 +7,11 @@ from ..config import AuthSettings
 from ..repo import UserRepository
 from ..jwt import create_access_token
 
-def make_auth_router(settings: AuthSettings, repo: UserRepository) -> APIRouter:
-    router = APIRouter(tags=["auth"])
+def make_auth_router(settings: AuthSettings, repo: UserRepository, *, prefix: str = "") -> APIRouter:
+    router = APIRouter(prefix=prefix, tags=["auth"])
 
-    @router.post(settings.token_url_path, response_model=Token)
+    @router.post(settings.token_url_path, response_model=Token,
+                 responses={401: {"description": "Invalid credentials"}})
     async def issue_token(form: OAuth2PasswordRequestForm = Depends()):
         user: UserInDB | None = await repo.get_by_username(form.username)
         if not user or not user.is_active or not verify_password(form.password, user.password_hash):
